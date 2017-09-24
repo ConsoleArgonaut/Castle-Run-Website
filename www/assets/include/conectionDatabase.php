@@ -14,53 +14,67 @@ function connectDB(){
 }
 
 /*
-        //$text = "insert into sets (userFK, setName, languange1, language2) values ((select userID from user where mail = '". $_SESSION['login_user'] . "'), '".$setName."', '".$languageOne."', '".$languageTwo."')";
-        $query = mysqli_query($connection, "insert into sets (userFK, setName, language1, language2) values ((select userID from user where mail = '". $_SESSION['login_user'] . "'), '".$setName."', '".$languageOne."', '".$languageTwo."')");
-        if ($query) {
-            mysqli_close($connection);
-            echo 'success';
-            header("location: ../../pages/dashboard.php");
-        }
-        else {
-            echo 'An error occured...';
-        }
-        mysqli_close($connection);
-    }
+//$text = "insert into sets (userFK, setName, languange1, language2) values ((select userID from user where mail = '". $_SESSION['login_user'] . "'), '".$setName."', '".$languageOne."', '".$languageTwo."')";
+$query = mysqli_query($connection, "insert into sets (userFK, setName, language1, language2) values ((select userID from user where mail = '". $_SESSION['login_user'] . "'), '".$setName."', '".$languageOne."', '".$languageTwo."')");
+if ($query) {
+    mysqli_close($connection);
+    echo 'success';
+    header("location: ../../pages/dashboard.php");
+}
+else {
+    echo 'An error occured...';
+}
+mysqli_close($connection);
 }*/
+function getTitle (){
+    $query = mysqli_query(connectDB(), "select id, title from `pages`");
+    mysqli_close(connectDB()); // Closing Connection
+}
 
 function getPage (){
-
+    $query = mysqli_query(connectDB(), "select text from `pages` where Id like ".GET[siteId]);
+    mysqli_close(connectDB()); // Closing Connection
 }
 
 function login() {
-
+    // Define $username and $password
+    $name=$_POST['name'];
+    $password=sha512($_POST['password']);
+    // Establishing Connection with Server by passing server_name, user_id, password and database as a parameter
+    $name = stripslashes($name);
+    $password = stripslashes($password);
+    $password = mysqli_real_escape_string(connectDB(), $password);
+    // SQL query to fetch information of registerd users and finds user match.
+    $query = mysqli_query(connectDB(), "select * from user where pw like '".$password."' AND mail like '".$name."'");
+    $rows = mysqli_num_rows($query);
+    if ($rows == 1) {
+        $_SESSION['login_user']=$name; // Initializing Session
+    } else {
+        $error = "Username or Password is invalid";
+        echo $error;
+        $_SESSION['login_failure'] = 'true';
+        header("location: ../../index.php");
+    }
+    mysqli_close(connectDB()); // Closing Connection
 }
 
 function createUser() {
-
+    $name=$_POST['name'];
+    $password=sha512($_POST['password']);
+    $name = stripslashes($name);
+    $password = stripslashes($password);
+    $password = mysqli_real_escape_string(connectDB(), $password);
+    $query = mysqli_query(connectDB(), "insert into `users` (`Name`, Password, IsAdmin) VALUES ('".$name."', '".$password."', '".POST['IsAdmin']."')");
+    mysqli_close(connectDB()); // Closing Connection
 }
 
 function registration() {
-    $query = mysqli_query(connectDB(), "insert into `words`(word1, word2) values ('" . $word1 . "', '" . $word2 . "')");
-
-    /*$connection = mysqli_connect("localhost", "root", "", "langwizz"); // Establishing connection with server..
-    $word1 = mysqli_real_escape_string($connection, $wordOne);
-    $word2 = mysqli_real_escape_string($connection, $wordTwo);
-    $query = mysqli_query($connection, "insert into `words`(word1, word2) values ('" . $word1 . "', '" . $word2 . "')");
+    $query = mysqli_query(connectDB(), "insert into `registration`(FirstName, LastName, Street, City, PLZ, EMail, Team, Country, Languages) 
+                                                values ('".POST['FirstName']."', '".POST['LastName']."', '".POST['Street']."', '".POST['City']."', '".POST['PLZ']."', '".POST['EMail']."', '".POST['Team']."', '".POST['Country']."', '".POST['Language']."')");
     if ($query) {
-        $query2 = mysqli_query($connection, "insert into `word_set` (setFK, wordFK) VALUES ((select setID from sets WHERE setName like '" . $_SESSION['set'] . "'),(select wordID from words WHERE word1 like '" . $word1 . "' and word2 like '" . $word2 . "'))");
-        if ($query2) {
-            echo "Words Successfully added.....";
-            header("location: editvocabulary.php");
-        } else {
-            echo "Error..5..!!";
-            mysqli_query($connection, "delete from words where wordID like (select wordID from words WHERE word1 like '" . $word1 . "' and word2 like '" . $word2 . "')");
-            header("location: editvocabulary.php");
-        }
+        echo "Participant Successfully added.....";
     } else {
         echo "Error....!!";
-        mysqli_query($connection, "delete from words where wordID like (select wordID from words WHERE word1 like '" . $word1 . "' and word2 like '" . $word2 . "')");
-        header("location: editvocabulary.php");
     }
-    mysqli_close($connection);*/
+    mysqli_close(connectDB());
 }
