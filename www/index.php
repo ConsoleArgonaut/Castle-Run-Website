@@ -5,15 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-<link rel="stylesheet" type="text/css" href="/default.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/default.css">
 <style>
 
 </style>
 <body>
-
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Menü Schliessen</a>
+<nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft">Menü schliessen</a>
   <div class="w3-container">
     <h3 class="w3-padding-64"><b>Schlosslauf</b></h3>
   </div>
@@ -34,12 +33,12 @@
 </header>
 
 <!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" title="Schliesse Seitenmenü" id="myOverlay"></div>
 
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:340px;margin-right:40px">
+<div class="w3-main">
   <!-- Content -->
-  <div class="w3-container" style="margin-top:80px" id="showcase">
+  <div class="w3-container">
     <h1>Title</h1>
 	<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
   </div>
