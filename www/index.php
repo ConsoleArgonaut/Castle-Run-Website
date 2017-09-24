@@ -6,9 +6,12 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 <link rel="stylesheet" type="text/css" href="./assets/css/default.css">
-<style>
 
-</style>
+<?php
+//Includes
+include './assets/include/pageManager.php';
+?>
+
 <body>
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" id="mySidebar"><br>
@@ -16,13 +19,10 @@
   <div class="w3-container">
     <h3 class="w3-padding-64"><b>Schlosslauf</b></h3>
   </div>
-  <div class="w3-bar-block">
-    <a href="?siteId=1" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> 
-    <a href="?siteId=2" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Vorwort</a> 
-    <a href="?siteId=3" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Eigenschaften</a> 
-    <a href="?siteId=4" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Aufgaben</a> 
-    <a href="?siteId=5" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Anmeldung Schlosslauf</a> 
-    <a href="?siteId=6" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Logout</a>
+  <div class="w3-bar-block" id="sidebar">
+      <?php
+        page_writeSideBar();
+      ?>
   </div>
 </nav>
 
@@ -38,9 +38,10 @@
 <!-- !PAGE CONTENT! -->
 <div class="w3-main">
   <!-- Content -->
-  <div class="w3-container">
-    <h1>Title</h1>
-	<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+  <div class="w3-container" id="mainContainer">
+      <?php
+        page_writeContent();
+      ?>
   </div>
 <!-- End page content -->
 </div>
