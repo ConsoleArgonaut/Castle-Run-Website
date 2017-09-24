@@ -13,26 +13,14 @@ function connectDB(){
     return $connection;
 }
 
-/*
-//$text = "insert into sets (userFK, setName, languange1, language2) values ((select userID from user where mail = '". $_SESSION['login_user'] . "'), '".$setName."', '".$languageOne."', '".$languageTwo."')";
-$query = mysqli_query($connection, "insert into sets (userFK, setName, language1, language2) values ((select userID from user where mail = '". $_SESSION['login_user'] . "'), '".$setName."', '".$languageOne."', '".$languageTwo."')");
-if ($query) {
-    mysqli_close($connection);
-    echo 'success';
-    header("location: ../../pages/dashboard.php");
-}
-else {
-    echo 'An error occured...';
-}
-mysqli_close($connection);
-}*/
-function getTitle (){
+function getTitles (){
     $query = mysqli_query(connectDB(), "select id, title from `pages`");
     mysqli_close(connectDB()); // Closing Connection
 }
 
 function getPage (){
     $query = mysqli_query(connectDB(), "select text from `pages` where Id like ".GET[siteId]);
+    echo $query;
     mysqli_close(connectDB()); // Closing Connection
 }
 
@@ -48,12 +36,11 @@ function login() {
     $query = mysqli_query(connectDB(), "select * from user where pw like '".$password."' AND mail like '".$name."'");
     $rows = mysqli_num_rows($query);
     if ($rows == 1) {
-        $_SESSION['login_user']=$name; // Initializing Session
+        $_SESSION['login_user'] = $name; // Initializing Session
     } else {
         $error = "Username or Password is invalid";
         echo $error;
         $_SESSION['login_failure'] = 'true';
-        header("location: ../../index.php");
     }
     mysqli_close(connectDB()); // Closing Connection
 }
@@ -70,7 +57,7 @@ function createUser() {
 
 function registration() {
     $query = mysqli_query(connectDB(), "insert into `registration`(FirstName, LastName, Street, City, PLZ, EMail, Team, Country, Languages) 
-                                                values ('".POST['FirstName']."', '".POST['LastName']."', '".POST['Street']."', '".POST['City']."', '".POST['PLZ']."', '".POST['EMail']."', '".POST['Team']."', '".POST['Country']."', '".POST['Language']."')");
+                                               values ('".POST['FirstName']."', '".POST['LastName']."', '".POST['Street']."', '".POST['City']."', '".POST['PLZ']."', '".POST['EMail']."', '".POST['Team']."', '".POST['Country']."', '".POST['Language']."')");
     if ($query) {
         echo "Participant Successfully added.....";
     } else {
