@@ -15,13 +15,16 @@ function connectDB(){
 
 function getTitles (){
     $query = mysqli_query(connectDB(), "select id, title from `pages`");
+    $titles[] = mysqli_fetch_assoc($query);
     mysqli_close(connectDB()); // Closing Connection
+    return $titles;
 }
 
 function getPage (){
     $query = mysqli_query(connectDB(), "select text from `pages` where Id like ".GET[siteId]);
-    echo $query;
+    $page = mysqli_fetch_object($query);
     mysqli_close(connectDB()); // Closing Connection
+    return $page;
 }
 
 function login() {
