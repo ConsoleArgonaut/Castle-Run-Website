@@ -68,3 +68,8 @@ function registration() {
     }
     mysqli_close(connectDB());
 }
+
+function logout() {
+    session_unset();
+    session_destroy();
+}
