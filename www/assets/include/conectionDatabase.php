@@ -36,7 +36,7 @@ function login() {
     $password = stripslashes($password);
     $password = mysqli_real_escape_string(connectDB(), $password);
     // SQL query to fetch information of registerd users and finds user match.
-    $query = mysqli_query(connectDB(), "select * from user where pw like '".$password."' AND mail like '".$name."'");
+    $query = mysqli_query(connectDB(), "select * from users where `Name` like '".$name."' AND Password like '".$password."'");
     $rows = mysqli_num_rows($query);
     if ($rows == 1) {
         $_SESSION['login_user'] = $name; // Initializing Session
