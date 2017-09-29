@@ -33,7 +33,7 @@ function isLoggedIn() {
 
         if(isset($_POST['submit'])) {
             if (isset($_POST['username']) && isset($_POST['password'])) {
-               //login();
+               login();
             }
         }
 

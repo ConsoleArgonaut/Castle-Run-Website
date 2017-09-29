@@ -9,6 +9,7 @@
 
 <?php
 //Includes
+include './assets/include/conectionDatabase.php';
 include './assets/include/pageManager.php';
 ?>
 

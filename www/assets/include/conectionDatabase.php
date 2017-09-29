@@ -28,10 +28,9 @@ function getPage (){
 }
 
 function login() {
-    session_start();
     // Define $username and $password
-    $name=$_POST['name'];
-    $password=sha512($_POST['password']);
+    $name = $_POST['username'];
+    $password = md5($_POST['password']);
     // Establishing Connection with Server by passing server_name, user_id, password and database as a parameter
     $name = stripslashes($name);
     $password = stripslashes($password);
