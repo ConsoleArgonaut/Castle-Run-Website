@@ -28,6 +28,7 @@ function getPage (){
 }
 
 function login() {
+    session_start();
     // Define $username and $password
     $name=$_POST['name'];
     $password=sha512($_POST['password']);
@@ -69,7 +70,3 @@ function registration() {
     mysqli_close(connectDB());
 }
 
-function logout() {
-    session_unset();
-    session_destroy();
-}
