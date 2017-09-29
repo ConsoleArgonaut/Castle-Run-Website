@@ -21,7 +21,7 @@ function getTitles (){
 }
 
 function getPage (){
-    $query = mysqli_query(connectDB(), "select text from `pages` where Id like ".GET['siteId']);
+    $query = mysqli_query(connectDB(), "select text from `pages` where Id like ". $_GET['siteId']);
     $page = mysqli_fetch_object($query);
     mysqli_close(connectDB()); // Closing Connection
     return $page;
