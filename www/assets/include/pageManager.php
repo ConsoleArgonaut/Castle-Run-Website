@@ -5,12 +5,15 @@
         $isLoggedIn = isLoggedIn();
 
         if ($isLoggedIn == true) {
-            echo '<a href="?siteId=1" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>';
-            echo '<a href="?siteId=2" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Vorwort</a>';
-            echo '<a href="?siteId=3" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Eigenschaften</a>';
-            echo '<a href="?siteId=4" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Aufgaben</a>';
-            echo '<a href="?siteId=5" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Anmeldung Schlosslauf</a>';
-            echo '<a href="?siteId=6" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Logout</a>';
+
+            foreach (getTitles() as $title) {
+               // echo print_r($title);
+                echo '<a href="?siteId=';
+                echo  $title['id'];
+                echo '" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">';
+                echo $title['title'];
+                echo '</a>';
+            }
         } else {
             echo '<a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Login</a>';
         }
