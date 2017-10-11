@@ -10,7 +10,7 @@
 <?php
 //Includes
 include './assets/include/conectionDatabase.php';
-include './assets/include/pageManager.php';
+//include './assets/include/pageManager.php';
 ?>
 
 <body>

@@ -7,7 +7,7 @@
         if ($isLoggedIn == true) {
 
             foreach (getTitles() as $title) {
-               // echo print_r($title);
+                /*echo print_r($title);*/
                 echo '<a href="?siteId=';
                 echo  $title['id'];
                 echo '" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">';
@@ -35,10 +35,10 @@
     }
 
 function isLoggedIn() {
-
         if(isset($_POST['submit'])) {
             if (isset($_POST['username']) && isset($_POST['password'])) {
-               login();
+                $verify = $_POST["password"];
+                login($verify);
             }
         }
 
@@ -51,8 +51,8 @@ function isLoggedIn() {
 }
 
 function logout() {
+    header('Location: ./../../index.php');
     session_unset();
     session_destroy();
 }
-
 ?>

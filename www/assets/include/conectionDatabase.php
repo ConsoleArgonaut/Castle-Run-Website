@@ -7,6 +7,7 @@
  */
 
 @session_start();
+include_once "pageManager.php";
 
 function connectDB(){
     $connection = mysqli_connect("localhost", "root", "", "castlerun"); // Establishing connection with server..
@@ -14,43 +15,60 @@ function connectDB(){
 }
 
 function getTitles (){
+    GLOBAL $titles;
+    $titles = array();
     $query = mysqli_query(connectDB(), "select id, title from `pages`");
-    $titles[] = mysqli_fetch_assoc($query);
+    while ($row = mysqli_fetch_assoc($query)) {
+        array_push($titles, $row);
+    }
     mysqli_close(connectDB()); // Closing Connection
+
     return $titles;
 }
 
 function getPage (){
-    $query = mysqli_query(connectDB(), "select text from `pages` where Id like ". $_GET['siteId']);
+    GLOBAL $titles;
+    if (!isset($_GET['siteId'])){
+        $id = 1;
+        $query = mysqli_query(connectDB(), "select text from `pages` where Id like ". $id);
+    }else{
+        if(stripos($titles[$_GET['siteId']]['title'], "Logout") !== FALSE){
+            logout();
+        }
+        $query = mysqli_query(connectDB(), "select text from `pages` where Id like ". $_GET['siteId']);
+    }
     $page = mysqli_fetch_object($query);
     mysqli_close(connectDB()); // Closing Connection
     return $page;
 }
 
-function login() {
+function login($verify) {
     // Define $username and $password
     $name = $_POST['username'];
-    $password = md5($_POST['password']);
-    // Establishing Connection with Server by passing server_name, user_id, password and database as a parameter
-    $name = stripslashes($name);
-    $password = stripslashes($password);
-    $password = mysqli_real_escape_string(connectDB(), $password);
-    // SQL query to fetch information of registerd users and finds user match.
-    $query = mysqli_query(connectDB(), "select * from users where `Name` like '".$name."' AND Password like '".$password."'");
-    $rows = mysqli_num_rows($query);
-    if ($rows == 1) {
-        $_SESSION['login_user'] = $name; // Initializing Session
-    } else {
-        $error = "Username or Password is invalid";
-        echo $error;
-        $_SESSION['login_failure'] = 'true';
+    $password = $_POST['password'];
+    if ($verify === $password) {
+        $password = hash('sha512', $password);
+        // Establishing Connection with Server by passing server_name, user_id, password and database as a parameter
+        $name = stripslashes($name);
+        $password = stripslashes($password);
+        $password = mysqli_real_escape_string(connectDB(), $password);
+        // SQL query to fetch information of registered users and finds user match.
+        $query = mysqli_query(connectDB(), "select * from users where `Name` like '" . $name . "' AND Password like '" . $password . "'");
+        $rows = mysqli_num_rows($query);
+        if ($rows == 1) {
+            $_SESSION['login_user'] = $name; // Initializing Session
+        } else {
+            $error = "Username or Password is invalid";
+            echo $error;
+            $_SESSION['login_failure'] = 'true';
+        }
     }
     mysqli_close(connectDB()); // Closing Connection
 }
 
 function createUser() {
     $name=$_POST['name'];
-    $password=sha512($_POST['password']);
+    $password=hash('sha512', $_POST['password']);
     $name = stripslashes($name);
     $password = stripslashes($password);
     $password = mysqli_real_escape_string(connectDB(), $password);
