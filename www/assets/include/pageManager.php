@@ -51,7 +51,7 @@ function isLoggedIn() {
 }
 
 function logout() {
-    header('Location: ./../../index.php');
+    header('Location: index.php');
     session_unset();
     session_destroy();
 }
