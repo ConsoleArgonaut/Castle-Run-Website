@@ -28,7 +28,7 @@ function getTitles (){
     $titles = array();
     $conn = connectDB();
     $notAdmin = userAdminCheck();
-    if ($notAdmin == true){
+    if ($notAdmin == false){
         $stmt = mysqli_prepare($conn, "select id, title from `pages` WHERE OnlyAdmin LIKE FALSE");
         mysqli_stmt_execute($stmt);
         $text = mysqli_stmt_get_result($stmt);
@@ -54,7 +54,7 @@ function getPage (){
     GLOBAL $titles;
     $conn = connectDB();
     $adminCheck = userAdminCheck();
-    if ($adminCheck == true) {
+    if ($adminCheck == false) {
         if (!isset($_GET['siteId'])) {
             $id = 1;
             //$query = mysqli_query(connectDB(), "select text from `pages` where Id like ". $id);
@@ -143,7 +143,8 @@ function createUser() {
 
     //$query = mysqli_query(connectDB(), "insert into `users` (`Name`, Password, IsAdmin) VALUES ('".$name."', '".$password."', '".POST['IsAdmin']."')");
     $stmt = mysqli_prepare($conn, "insert into `users` (`Name`, Password, IsAdmin) VALUES (?, ?, ?)");
-    mysqli_stmt_bind_param($stmt, 'ssi', $name, $password, POST['IsAdmin']);
+    //$admin =
+    mysqli_stmt_bind_param($stmt, 'ssi', $name, $password, $_POST['IsAdmin']);
     mysqli_stmt_execute($stmt);
 
     mysqli_stmt_close($stmt);
@@ -155,7 +156,7 @@ function registration() {
 
     //$query = mysqli_query(connectDB(), "insert into `registration`(FirstName, LastName, Street, City, PLZ, EMail, Team, Country, Languages) values ('".POST['FirstName']."', '".POST['LastName']."', '".POST['Street']."', '".POST['City']."', '".POST['PLZ']."', '".POST['EMail']."', '".POST['Team']."', '".POST['Country']."', '".POST['Language']."')");
     $stmt = mysqli_prepare($conn, "insert into `registration`(FirstName, LastName, Street, City, PLZ, EMail, Team, Country, Languages) values ('".POST['FirstName']."', '".POST['LastName']."', '".POST['Street']."', '".POST['City']."', '".POST['PLZ']."', '".POST['EMail']."', '".POST['Team']."', '".POST['Country']."', '".POST['Language']."')");
-    mysqli_stmt_bind_param($stmt, 'sssssssss', POST['FirstName'], POST['LastName'], POST['Street'], POST['City'], POST['PLZ'], POST['EMail'], POST['Team'], POST['Country'], POST['Language']);
+    mysqli_stmt_bind_param($stmt, 'sssssssss', $_POST['FirstName'],$_POST['LastName'],$_POST['Street'],$_POST['City'],$_POST['PLZ'],$_POST['EMail'],$_POST['Team'],$_POST['Country'],$_POST['Language']);
     mysqli_stmt_execute($stmt);
 
     if ($stmt) {
@@ -170,16 +171,16 @@ function registration() {
 function userAdminCheck(){
     $conn = connectDB();
     $name = $_SESSION['login_user'];
-    $adminCheck = false;
-
+    $adminCheck = true;
+    $admin = array();
     $stmt = mysqli_prepare($conn, "select * from `users` WHERE `Name` LIKE ? and IsAdmin like FALSE");
     mysqli_stmt_bind_param($stmt, 's', $name);
     $done = mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    while ($row = mysqli_fetch_field($result)){
+    while ($row = mysqli_fetch_assoc($result)){
+        array_push($admin, $row);
         foreach ($row as $r){
             if ($name === $r){
-                //$adminCheck = true;
                 $adminCheck = false;
             }
         }
