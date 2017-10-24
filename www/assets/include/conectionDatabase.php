@@ -141,22 +141,26 @@ function createUser() {
     $password = stripslashes($password);
     $password = mysqli_real_escape_string(connectDB(), $password);
 
-    //$query = mysqli_query(connectDB(), "insert into `users` (`Name`, Password, IsAdmin) VALUES ('".$name."', '".$password."', '".POST['IsAdmin']."')");
+    //$query = mysqli_query(connectDB(), "insert into `users` (`Name`, Password, IsAdmin) VALUES ('".$name."', '".$password."', '".$_POST['IsAdmin']."')");
     $stmt = mysqli_prepare($conn, "insert into `users` (`Name`, Password, IsAdmin) VALUES (?, ?, ?)");
-    //$admin =
-    mysqli_stmt_bind_param($stmt, 'ssi', $name, $password, $_POST['IsAdmin']);
+    if (isset($_POST['isAdmin'])){
+        $admin = 1;
+    } else {
+        $admin = 0;
+    }
+    mysqli_stmt_bind_param($stmt, 'ssi', $name, $password, $admin);
     mysqli_stmt_execute($stmt);
 
     mysqli_stmt_close($stmt);
-    mysqli_close(connectDB()); // Closing Connection
+    mysqli_close($conn); // Closing Connection
 }
 
-function registration() {
+function anmeldung() {
     $conn = connectDB();
 
-    //$query = mysqli_query(connectDB(), "insert into `registration`(FirstName, LastName, Street, City, PLZ, EMail, Team, Country, Languages) values ('".POST['FirstName']."', '".POST['LastName']."', '".POST['Street']."', '".POST['City']."', '".POST['PLZ']."', '".POST['EMail']."', '".POST['Team']."', '".POST['Country']."', '".POST['Language']."')");
-    $stmt = mysqli_prepare($conn, "insert into `registration`(FirstName, LastName, Street, City, PLZ, EMail, Team, Country, Languages) values ('".POST['FirstName']."', '".POST['LastName']."', '".POST['Street']."', '".POST['City']."', '".POST['PLZ']."', '".POST['EMail']."', '".POST['Team']."', '".POST['Country']."', '".POST['Language']."')");
-    mysqli_stmt_bind_param($stmt, 'sssssssss', $_POST['FirstName'],$_POST['LastName'],$_POST['Street'],$_POST['City'],$_POST['PLZ'],$_POST['EMail'],$_POST['Team'],$_POST['Country'],$_POST['Language']);
+    //$query = mysqli_query(connectDB(), "insert into `registration`(FirstName, LastName, Street, City, PLZ, EMail, Team, Country, Languages) values ('".$_POST['FirstName']."', '".$_POST['LastName']."', '".$_POST['Street']."', '".$_POST['City']."', '".$_POST['PLZ']."', '".$_POST['EMail']."', '".$_POST['Team']."', '".$_POST['Country']."', '".$_POST['Language']."')");
+    $stmt = mysqli_prepare($conn, "insert into `regristration`(`FirstName`, `LastName`, `Street`, `City`, `PLZ`, `EMail`, `Team`, `Country`, `Language`) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, 'sssssssss', $_POST['Vorname'],$_POST['Name'],$_POST['Strasse'],$_POST['Ort'],$_POST['PLZ'],$_POST['Mail'],$_POST['Gruppe'],$_POST['Land'],$_POST['Sprache']);
     mysqli_stmt_execute($stmt);
 
     if ($stmt) {
@@ -165,7 +169,7 @@ function registration() {
         echo "Error....!!";
     }
     mysqli_stmt_close($stmt);
-    mysqli_close(connectDB());
+    mysqli_close($conn);
 }
 
 function userAdminCheck(){

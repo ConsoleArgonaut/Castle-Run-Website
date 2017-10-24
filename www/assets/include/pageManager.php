@@ -1,5 +1,15 @@
 <?php
 
+if (isset($_POST['anmeldung']) && $_POST['anmeldung'] === "Absenden"){
+    include_once "conectionDatabase.php";
+    anmeldung();
+    header('Location: ../../index.php');
+}
+if (isset($_POST['register'])){
+    include_once "conectionDatabase.php";
+    createUser();
+    header('Location: ../../index.php');
+}
     function page_writeSideBar()
     {
         $isLoggedIn = isLoggedIn();
