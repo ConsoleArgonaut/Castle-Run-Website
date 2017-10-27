@@ -123,9 +123,8 @@ function login($verify) {
         $rows = mysqli_num_rows($query);
         if ($rows == 1) {
             $_SESSION['login_user'] = $name; // Initializing Session
+            $_SESSION['login_failure'] = 'false';
         } else {
-            $error = "Username or Password is invalid";
-            echo $error;
             $_SESSION['login_failure'] = 'true';
         }
     }
