@@ -62,7 +62,7 @@ function getPage (){
             mysqli_stmt_bind_param($stmt, 'i', $id);
             mysqli_stmt_execute($stmt);
         } else {
-            if (stripos($titles[$_GET['siteId'] - 2]['title'], "Logout", 0) !== FALSE) {
+            if (stripos($titles[$_GET['siteId'] - 3]['title'], "Logout", 0) !== FALSE) {
                 logout();
             }
             //$stmt = mysqli_query(connectDB(), "select text from `pages` where Id like ". $_GET['siteId']);

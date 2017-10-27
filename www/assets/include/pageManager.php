@@ -1,15 +1,34 @@
 <?php
 
-if (isset($_POST['anmeldung']) && $_POST['anmeldung'] === "Absenden"){
-    include_once "conectionDatabase.php";
-    anmeldung();
-    header('Location: ../../index.php');
+
+    if (isset($_POST['anmeldung']) && $_POST['anmeldung'] === "Absenden"){
+        testReferer();
+        if($_SESSION['correctRefferer'] == 'true'){
+            include_once "conectionDatabase.php";
+            anmeldung();
+            header('Location: ../../index.php');
+        }
+    }
+    if (isset($_POST['register'])){
+        testReferer();
+        if($_SESSION['correctRefferer'] == 'true'){
+            include_once "conectionDatabase.php";
+            createUser();
+            header('Location: ../../index.php');
+        }
+    }
+
+function testReferer(){
+        $_SESSION['correctRefferer'] = 'false';
+        if(explode('?', $_SERVER['HTTP_REFERER'])[0] + '/index.php' == (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]"){
+            $_SESSION['correctRefferer'] = 'true';
+        }
+        else{
+            echo 'Cross Site Scripting Detected<br>Referer was: ';
+            echo explode('?', $_SERVER['HTTP_REFERER'])[0];
+        }
 }
-if (isset($_POST['register'])){
-    include_once "conectionDatabase.php";
-    createUser();
-    header('Location: ../../index.php');
-}
+
     function page_writeSideBar()
     {
         $isLoggedIn = isLoggedIn();
@@ -79,8 +98,11 @@ function isLoggedIn() {
 }
 
 function logout() {
-    header('Location: index.php');
-    session_unset();
-    session_destroy();
+    testReferer();
+    if($_SESSION['correctRefferer'] == 'true'){
+        header('Location: index.php');
+        session_unset();
+        session_destroy();
+    }
 }
 ?>
